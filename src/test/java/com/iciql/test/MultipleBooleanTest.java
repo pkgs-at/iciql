@@ -127,18 +127,18 @@ public class MultipleBooleanTest {
 		assertEquals(
 				db.from(model)
 						.where(model.booleanFlag).isTrue()
-						.selectCount(), 6);
+						.select().size(), 6);
 		assertEquals(
 				db.from(model)
 						.where(model.booleanFlag).isTrue()
 						.and(model.primitiveFlag).isTrue()
-						.selectCount(), 3);
+						.select().size(), 3);
 		assertEquals(
 				db.from(model)
 						.where(model.booleanFlag).isTrue()
 						.and(model.primitiveFlag).isTrue()
 						.and(model.objectFlag).isFalse()
-						.selectCount(), 1);
+						.select().size(), 1);
 	}
 
 }

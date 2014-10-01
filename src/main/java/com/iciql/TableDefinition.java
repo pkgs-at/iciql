@@ -146,6 +146,9 @@ public class TableDefinition<T> {
 				if (targetType.isEnum()) {
 					o = Utils.convertEnum(o, targetType, enumType);
 				} else {
+					if (isBoolean && o instanceof Boolean) {
+						o = (Boolean)o ? 1 : 0;
+					}
 					o = Utils.convert(o, targetType);
 				}
 				field.set(obj, o);
