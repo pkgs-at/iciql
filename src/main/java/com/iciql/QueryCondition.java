@@ -71,6 +71,16 @@ public class QueryCondition<T, A> {
 		return new QueryWhere<T>(query);
 	}
 
+	public QueryWhere<T> isTrue() {
+		query.addConditionToken(new ConditionTrueFalse<A>(x, true));
+		return new QueryWhere<T>(query);
+	}
+
+	public QueryWhere<T> isFalse() {
+		query.addConditionToken(new ConditionTrueFalse<A>(x, false));
+		return new QueryWhere<T>(query);
+	}
+
 	public QueryWhere<T> exceeds(A y) {
 		query.addConditionToken(new Condition<A>(x, y, CompareType.EXCEEDS));
 		return new QueryWhere<T>(query);

@@ -715,6 +715,11 @@ public interface Iciql {
 		EnumType value() default EnumType.NAME;
 	}
 
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ ElementType.FIELD, ElementType.TYPE })
+	public @interface IQBoolean {
+	}
+
 	/**
 	 * Annotation to define an ignored field.
 	 */
