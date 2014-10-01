@@ -40,6 +40,7 @@ import com.iciql.Iciql.IQConstraint;
 import com.iciql.Iciql.IQContraintUnique;
 import com.iciql.Iciql.IQContraintsUnique;
 import com.iciql.Iciql.IQEnum;
+import com.iciql.Iciql.IQBoolean;
 import com.iciql.Iciql.IQContraintForeignKey;
 import com.iciql.Iciql.IQContraintsForeignKey;
 import com.iciql.Iciql.IQIgnore;
@@ -118,6 +119,7 @@ public class TableDefinition<T> {
 		boolean nullable;
 		String defaultValue;
 		EnumType enumType;
+		boolean isBoolean;
 		boolean isPrimitive;
 		String constraint;
 
@@ -461,6 +463,7 @@ public class TableDefinition<T> {
 			boolean trim = false;
 			boolean nullable = !f.getType().isPrimitive();
 			EnumType enumType = null;
+			boolean isBoolean = false;
 			String defaultValue = "";
 			String constraint = "";
 			// configure Java -> SQL enum mapping
@@ -477,6 +480,7 @@ public class TableDefinition<T> {
 					enumType = iqenum.value();
 				}
 			}
+			isBoolean = f.isAnnotationPresent(IQBoolean.class);
 
 			// try using default object
 			try {
@@ -539,6 +543,7 @@ public class TableDefinition<T> {
 				fieldDef.nullable = nullable;
 				fieldDef.defaultValue = defaultValue;
 				fieldDef.enumType = enumType;
+				fieldDef.isBoolean = isBoolean;
 				fieldDef.dataType = ModelUtils.getDataType(fieldDef);
 				fieldDef.constraint = constraint;
 				uniqueFields.add(fieldDef);
@@ -626,6 +631,9 @@ public class TableDefinition<T> {
 				EnumId enumid = (EnumId) value;
 				return enumid.enumId();
 			}
+		}
+		if (field.isBoolean && value instanceof Number) {
+			return ((Number)value).intValue() != 0;
 		}
 
 		if (field.trim && field.length > 0) {
